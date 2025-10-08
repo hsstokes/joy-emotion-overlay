@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joy Overlay Response</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .collage-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .grid {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background-image: 
+                linear-gradient(to right, rgba(199, 237, 220, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(199, 237, 220, 0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+        
+        .yellow-circle {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #FFDE59;
+            top: 35%;
+            right: 20%;
+            box-shadow: 0 0 15px rgba(255, 222, 89, 0.5);
+            z-index: 4;
+            animation: pulse 5s infinite alternate;
+        }
+        
+        .green-circle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #2A9D8F;
+            top: 10%;
+            right: 40%;
+            z-index: 3;
+            animation: rotate 15s linear infinite;
+        }
+        
+        .green-lines {
+            position: absolute;
+            top: 20%;
+            right: 45%;
+            z-index: 2;
+        }
+        
+        .green-line {
+            position: absolute;
+            width: 3px;
+            background-color: #2A9D8F;
+            animation: grow 7s infinite alternate;
+        }
+        
+        .green-line:nth-child(1) {
+            height: 120px;
+            left: -30px;
+            animation-delay: 0.5s;
+        }
+        
+        .green-line:nth-child(2) {
+            height: 150px;
+            left: -10px;
+            animation-delay: 1s;
+        }
+        
+        .green-line:nth-child(3) {
+            height: 180px;
+            left: 10px;
+            animation-delay: 1.5s;
+        }
+        
+        .yellow-triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid #FFDE59;
+            top: 40%;
+            left: 15%;
+            z-index: 3;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .blue-dots {
+            position: absolute;
+            z-index: 3;
+        }
+        
+        .blue-dot {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #4361EE;
+            animation: fadeInOut 4s infinite alternate;
+        }
+        
+        .blue-dot:nth-child(1) {
+            top: 45%;
+            left: 20%;
+            animation-delay: 0.2s;
+        }
+        
+        .blue-dot:nth-child(2) {
+            top: 50%;
+            left: 22%;
+            animation-delay: 0.7s;
+        }
+        
+        .blue-dot:nth-child(3) {
+            top: 55%;
+            left: 24%;
+            animation-delay: 1.2s;
+        }
+        
+        .strings {
+            position: absolute;
+            bottom: 25%;
+            left: 20%;
+            z-index: 5;
+            transform: rotate(15deg);
+        }
+        
+        .string {
+            position: absolute;
+            width: 3px;
+            height: 100px;
+            border-radius: 5px;
+            animation: wave 5s ease-in-out infinite;
+        }
+        
+        .string:nth-child(1) {
+            background-color: #FF6B6B;
+            left: 0;
+            animation-delay: 0.3s;
+        }
+        
+        .string:nth-child(2) {
+            background-color: #FFDE59;
+            left: 7px;
+            animation-delay: 0.6s;
+        }
+        
+        .string:nth-child(3) {
+            background-color: #FF6B6B;
+            left: 14px;
+            animation-delay: 0.9s;
+        }
+        
+        .text-joy {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(42, 157, 143, 0.8);
+            font-weight: bold;
+            top: 30%;
+            left: 38%;
+            z-index: 6;
+            animation: fadeText 8s infinite alternate;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+        }
+        
+        .text-fragments {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .text-fragment {
+            position: absolute;
+            font-size: 12px;
+            opacity: 0.5;
+            animation: fadeInOut 6s infinite alternate;
+        }
+        
+        .fragment-1 {
+            top: 45%;
+            left: 35%;
+            color: #4361EE;
+            transform: rotate(-15deg);
+            animation-delay: 0.5s;
+        }
+        
+        .fragment-2 {
+            top: 60%;
+            left: 45%;
+            color: #FF6B6B;
+            transform: rotate(10deg);
+            animation-delay: 1.5s;
+        }
+        
+        .fragment-3 {
+            top: 55%;
+            left: 50%;
+            color: #2A9D8F;
+            animation-delay: 2.5s;
+        }
+        
+        .hand-drawing {
+            position: absolute;
+            bottom: 15%;
+            right: 15%;
+            width: 100px;
+            height: 120px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.4);
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hand-outline {
+            width: 70px;
+            height: 90px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 10px 10px 0 10px;
+            position: relative;
+            animation: pulse-subtle 4s infinite alternate;
+        }
+        
+        .finger {
+            position: absolute;
+            width: 10px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            top: -30px;
+        }
+        
+        .finger:nth-child(1) { left: 5px; height: 35px; }
+        .finger:nth-child(2) { left: 20px; height: 40px; }
+        .finger:nth-child(3) { left: 35px; height: 38px; }
+        .finger:nth-child(4) { left: 50px; height: 33px; }
+        
+        .red-line {
+            position: absolute;
+            width: 2px;
+            height: 60%;
+            background-color: rgba(255, 59, 59, 0.7);
+            top: 20%;
+            left: 55%;
+            z-index: 2;
+        }
+        
+        .paperclip {
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            border: 3px solid #FFD700;
+            border-radius: 10px 10px 0 0;
+            top: 5%;
+            left: 10%;
+            transform: rotate(20deg);
+            z-index: 5;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 222, 89, 0.7); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes grow {
+            0% { transform: scaleY(0.8); }
+            100% { transform: scaleY(1.2); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes wave {
+            0% { transform: skewX(-15deg); }
+            50% { transform: skewX(15deg); }
+            100% { transform: skewX(-15deg); }
+        }
+        
+        @keyframes fadeText {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 0.5; transform: scale(1); }
+        }
+        
+        @keyframes pulse-subtle {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.03); }
+        }
+        
+        .color-mapping {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 10;
+        }
+        
+        .color-item {
+            margin-bottom: 5px;
+        }
+        
+        .color-blue { color: #4361EE; }
+        .color-green { color: #2A9D8F; }
+        .color-pink-yellow { background: linear-gradient(to right, #FF6B6B 50%, #FFDE59 50%); -webkit-background-clip: text; color: transparent; }
+    </style>
+</head>
+<body>
+    <div class="collage-container">
+        <div class="grid"></div>
+        
+        <div class="green-circle"></div>
+        
+        <div class="green-lines">
+            <div class="green-line"></div>
+            <div class="green-line"></div>
+            <div class="green-line"></div>
+        </div>
+        
+        <div class="yellow-circle">
+            <span style="display: flex; justify-content: center; align-items: center; height: 100%; font-weight: bold; color: #333;">B</span>
+        </div>
+        
+        <div class="yellow-triangle"></div>
+        
+        <div class="blue-dots">
+            <div class="blue-dot"></div>
+            <div class="blue-dot"></div>
+            <div class="blue-dot"></div>
+        </div>
+        
+        <div class="strings">
+            <div class="string"></div>
+            <div class="string"></div>
+            <div class="string"></div>
+        </div>
+        
+        <div class="text-joy">JOY</div>
+        
+        <div class="text-fragments">
+            <div class="text-fragment fragment-1">contentment</div>
+            <div class="text-fragment fragment-2">satisfaction</div>
+            <div class="text-fragment fragment-3">happiness</div>
+        </div>
+        
+        <div class="hand-drawing">
+            <div class="hand-outline">
+                <div class="finger"></div>
+                <div class="finger"></div>
+                <div class="finger"></div>
+                <div class="finger"></div>
+            </div>
+        </div>
+        
+        <div class="red-line"></div>
+        
+        <div class="paperclip"></div>
+        
+        <div class="color-mapping">
+            <div class="color-item">
+                <span class="color-blue">Blue</span> = detect vertical movement patterns signaling psychological elevation
+            </div>
+            <div class="color-item">
+                <span class="color-green">Green</span> = assess stability-to-buoyancy ratio within structured space
+            </div>
+            <div class="color-item">
+                <span class="color-pink-yellow">Pink and Yellow</span> = generate complementary connection and brightness
+            </div>
+        </div>
+    </div>
+</body>
+</html>
