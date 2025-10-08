@@ -14,21 +14,19 @@
             height: 100vh;
         }
         
-        /* Add this to the CSS */
         .collage-container {
             background-image: url('joy-collage.jpg');
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             background-color: #f8f8f8;
-            border: 2px dashed red; /* temporary border to see container boundaries */
             position: relative;
             width: 100%;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 0; /* Ensures proper stacking context */
+            z-index: 0;
         }
         
         .grid {
@@ -40,16 +38,16 @@
                 linear-gradient(to bottom, rgba(199, 237, 220, 0.2) 1px, transparent 1px);
             background-size: 20px 20px;
             z-index: 1;
-            opacity: 0.7; /* Overall grid transparency */
-            pointer-events: none; /* Makes grid non-interactive */
+            opacity: 0.4;
+            pointer-events: none;
         }
         
         .yellow-circle {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background-color: #FFDE59;
+            background-color: rgba(255, 222, 89, 0.7);
             top: 35%;
             right: 20%;
             box-shadow: 0 0 15px rgba(255, 222, 89, 0.5);
@@ -57,16 +55,35 @@
             animation: pulse 5s infinite alternate;
         }
         
+        @media (max-width: 600px) {
+            .yellow-circle {
+                width: 40px;
+                height: 40px;
+                right: 15%;
+                top: 40%;
+            }
+        }
+        
         .green-circle {
             position: absolute;
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            border: 3px solid #2A9D8F;
-            top: 10%;
+            border: 4px solid rgba(42, 157, 143, 0.7);
+            top: 15%;
             right: 40%;
             z-index: 3;
             animation: rotate 15s linear infinite;
+            background-color: transparent;
+        }
+        
+        @media (max-width: 600px) {
+            .green-circle {
+                width: 35px;
+                height: 35px;
+                border-width: 3px;
+                top: 25%;
+            }
         }
         
         .green-lines {
@@ -79,39 +96,58 @@
         .green-line {
             position: absolute;
             width: 3px;
-            background-color: #2A9D8F;
+            background-color: rgba(42, 157, 143, 0.7);
             animation: grow 7s infinite alternate;
         }
         
         .green-line:nth-child(1) {
-            height: 120px;
+            height: 100px;
             left: -30px;
             animation-delay: 0.5s;
         }
         
         .green-line:nth-child(2) {
-            height: 150px;
+            height: 120px;
             left: -10px;
             animation-delay: 1s;
         }
         
         .green-line:nth-child(3) {
-            height: 180px;
+            height: 140px;
             left: 10px;
             animation-delay: 1.5s;
+        }
+        
+        @media (max-width: 600px) {
+            .green-lines {
+                right: 40%;
+            }
+            .green-line:nth-child(1) { height: 70px; }
+            .green-line:nth-child(2) { height: 85px; }
+            .green-line:nth-child(3) { height: 100px; }
         }
         
         .yellow-triangle {
             position: absolute;
             width: 0;
             height: 0;
-            border-left: 40px solid transparent;
-            border-right: 40px solid transparent;
-            border-bottom: 70px solid #FFDE59;
+            border-left: 35px solid transparent;
+            border-right: 35px solid transparent;
+            border-bottom: 60px solid rgba(255, 222, 89, 0.7);
             top: 40%;
             left: 15%;
             z-index: 3;
             animation: float 6s ease-in-out infinite;
+        }
+        
+        @media (max-width: 600px) {
+            .yellow-triangle {
+                border-left-width: 25px;
+                border-right-width: 25px;
+                border-bottom-width: 45px;
+                top: 30%;
+                left: 10%;
+            }
         }
         
         .blue-dots {
@@ -121,10 +157,10 @@
         
         .blue-dot {
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background-color: #4361EE;
+            background-color: rgba(67, 97, 238, 0.7);
             animation: fadeInOut 4s infinite alternate;
         }
         
@@ -146,6 +182,16 @@
             animation-delay: 1.2s;
         }
         
+        @media (max-width: 600px) {
+            .blue-dot {
+                width: 8px;
+                height: 8px;
+            }
+            .blue-dot:nth-child(1) { left: 25%; }
+            .blue-dot:nth-child(2) { left: 27%; }
+            .blue-dot:nth-child(3) { left: 29%; }
+        }
+        
         .strings {
             position: absolute;
             bottom: 25%;
@@ -163,33 +209,53 @@
         }
         
         .string:nth-child(1) {
-            background-color: #FF6B6B;
+            background-color: rgba(255, 107, 107, 0.8);
             left: 0;
             animation-delay: 0.3s;
         }
         
         .string:nth-child(2) {
-            background-color: #FFDE59;
-            left: 7px;
+            background-color: rgba(255, 222, 89, 0.8);
+            left: 10px;
             animation-delay: 0.6s;
         }
         
         .string:nth-child(3) {
-            background-color: #FF6B6B;
-            left: 14px;
+            background-color: rgba(255, 107, 107, 0.8);
+            left: 20px;
             animation-delay: 0.9s;
+        }
+        
+        @media (max-width: 600px) {
+            .strings {
+                bottom: 20%;
+                left: 10%;
+            }
+            .string {
+                height: 70px;
+            }
         }
         
         .text-joy {
             position: absolute;
-            font-size: 24px;
+            font-size: 32px;
             color: rgba(42, 157, 143, 0.8);
-            font-weight: bold;
+            font-weight: normal;
             top: 30%;
             left: 38%;
             z-index: 6;
             animation: fadeText 8s infinite alternate;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            letter-spacing: 3px;
+        }
+        
+        @media (max-width: 600px) {
+            .text-joy {
+                font-size: 24px;
+                left: 36%;
+                top: 25%;
+                letter-spacing: 2px;
+            }
         }
         
         .text-fragments {
@@ -201,72 +267,54 @@
         
         .text-fragment {
             position: absolute;
-            font-size: 12px;
-            opacity: 0.5;
-            animation: fadeInOut 6s infinite alternate;
+            font-size: 14px;
+            font-weight: normal;
+            opacity: 0.7;
+            animation: wobble 8s infinite alternate;
+            letter-spacing: 1px;
         }
         
         .fragment-1 {
-            top: 45%;
+            top: 50%;
             left: 35%;
-            color: #4361EE;
-            transform: rotate(-15deg);
+            color: rgba(67, 97, 238, 0.8);
+            transform: rotate(-8deg);
             animation-delay: 0.5s;
         }
         
         .fragment-2 {
             top: 60%;
             left: 45%;
-            color: #FF6B6B;
-            transform: rotate(10deg);
+            color: rgba(255, 107, 107, 0.8);
+            transform: rotate(5deg);
             animation-delay: 1.5s;
         }
         
         .fragment-3 {
             top: 55%;
             left: 50%;
-            color: #2A9D8F;
+            color: rgba(42, 157, 143, 0.8);
+            transform: rotate(-3deg);
             animation-delay: 2.5s;
         }
         
-        .hand-drawing {
-            position: absolute;
-            bottom: 15%;
-            right: 15%;
-            width: 100px;
-            height: 120px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.4);
-            z-index: 3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        @media (max-width: 600px) {
+            .text-fragment {
+                font-size: 12px;
+            }
+            .fragment-1 {
+                left: 15%;
+                top: 55%;
+            }
+            .fragment-2 {
+                left: 60%;
+                top: 65%;
+            }
+            .fragment-3 {
+                top: 60%;
+                left: 40%;
+            }
         }
-        
-        .hand-outline {
-            width: 70px;
-            height: 90px;
-            border: 1px solid rgba(0, 0, 0, 0.5);
-            border-radius: 10px 10px 0 10px;
-            position: relative;
-            animation: pulse-subtle 4s infinite alternate;
-        }
-        
-        .finger {
-            position: absolute;
-            width: 10px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-            top: -30px;
-        }
-        
-        .finger:nth-child(1) { left: 5px; height: 35px; }
-        .finger:nth-child(2) { left: 20px; height: 40px; }
-        .finger:nth-child(3) { left: 35px; height: 38px; }
-        .finger:nth-child(4) { left: 50px; height: 33px; }
         
         .red-line {
             position: absolute;
@@ -278,21 +326,69 @@
             z-index: 2;
         }
         
+        @media (max-width: 600px) {
+            .red-line {
+                left: 60%;
+            }
+        }
+        
         .paperclip {
             position: absolute;
             width: 20px;
             height: 40px;
-            border: 3px solid #FFD700;
+            border: 3px solid rgba(255, 215, 0, 0.7);
             border-radius: 10px 10px 0 0;
             top: 5%;
             left: 10%;
             transform: rotate(20deg);
             z-index: 5;
+            background-color: transparent;
+        }
+        
+        @media (max-width: 600px) {
+            .paperclip {
+                top: 8%;
+                left: 8%;
+                transform: rotate(30deg);
+            }
+        }
+        
+        .color-mapping {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 10;
+            max-width: 90%;
+        }
+        
+        @media (max-width: 600px) {
+            .color-mapping {
+                font-size: 10px;
+                padding: 5px;
+                bottom: 5px;
+                left: 5px;
+            }
+        }
+        
+        .color-item {
+            margin-bottom: 4px;
+        }
+        
+        .color-blue { color: #4361EE; }
+        .color-green { color: #2A9D8F; }
+        .color-pink-yellow { 
+            background: linear-gradient(to right, #FF6B6B 50%, #FFDE59 50%); 
+            -webkit-background-clip: text; 
+            color: transparent;
         }
         
         @keyframes pulse {
             0% { transform: scale(1); }
-            100% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 222, 89, 0.7); }
+            100% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 222, 89, 0.4); }
         }
         
         @keyframes rotate {
@@ -312,8 +408,8 @@
         }
         
         @keyframes fadeInOut {
-            0% { opacity: 0.3; }
-            100% { opacity: 1; }
+            0% { opacity: 0.4; }
+            100% { opacity: 0.8; }
         }
         
         @keyframes wave {
@@ -323,40 +419,21 @@
         }
         
         @keyframes fadeText {
-            0% { opacity: 0.5; transform: scale(1); }
+            0% { opacity: 0.6; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.05); }
-            100% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1); }
         }
         
-        @keyframes pulse-subtle {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.03); }
+        @keyframes wobble {
+            0% { transform: translateX(-2px) rotate(-3deg); }
+            50% { transform: translateX(2px) rotate(3deg); }
+            100% { transform: translateX(-2px) rotate(-3deg); }
         }
-        
-        .color-mapping {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            z-index: 10;
-        }
-        
-        .color-item {
-            margin-bottom: 5px;
-        }
-        
-        .color-blue { color: #4361EE; }
-        .color-green { color: #2A9D8F; }
-        .color-pink-yellow { background: linear-gradient(to right, #FF6B6B 50%, #FFDE59 50%); -webkit-background-clip: text; color: transparent; }
     </style>
 </head>
 <body>
     <div class="collage-container">
-        <!-- Add the image tag right here, as the first element -->
-        <img src="joy-collage.jpg" style="position: absolute; width: 100%; height: 100%; object-fit: contain; z-index: 0; opacity: 0.7;">
+        <img src="joy-collage.jpg" style="position: absolute; width: 100%; height: 100%; object-fit: contain; z-index: 0; opacity: 0.8;">
         <div class="grid"></div>
         
         <div class="green-circle"></div>
@@ -368,7 +445,7 @@
         </div>
         
         <div class="yellow-circle">
-            <span style="display: flex; justify-content: center; align-items: center; height: 100%; font-weight: bold; color: #333;">B</span>
+            <span style="display: flex; justify-content: center; align-items: center; height: 100%; font-weight: normal; color: #333;">B</span>
         </div>
         
         <div class="yellow-triangle"></div>
@@ -393,28 +470,19 @@
             <div class="text-fragment fragment-3">happiness</div>
         </div>
         
-        <div class="hand-drawing">
-            <div class="hand-outline">
-                <div class="finger"></div>
-                <div class="finger"></div>
-                <div class="finger"></div>
-                <div class="finger"></div>
-            </div>
-        </div>
-        
         <div class="red-line"></div>
         
         <div class="paperclip"></div>
         
         <div class="color-mapping">
             <div class="color-item">
-                <span class="color-blue">Blue</span> = detect vertical movement patterns signaling psychological elevation
+                <span class="color-blue">Blue</span> = detect vertical movement patterns
             </div>
             <div class="color-item">
-                <span class="color-green">Green</span> = assess stability-to-buoyancy ratio within structured space
+                <span class="color-green">Green</span> = assess stability-to-buoyancy ratio
             </div>
             <div class="color-item">
-                <span class="color-pink-yellow">Pink and Yellow</span> = generate complementary connection and brightness
+                <span class="color-pink-yellow">Pink/Yellow</span> = generate complementary connection
             </div>
         </div>
     </div>
