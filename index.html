@@ -29,6 +29,15 @@
             z-index: 0;
         }
         
+        /* Adjust image display on mobile */
+        @media (max-width: 768px) {
+            .collage-img {
+                object-fit: cover;
+                object-position: center top;
+                height: 90vh; /* Leave space for color mapping */
+            }
+        }
+        
         .grid {
             position: absolute;
             width: 90%;
@@ -134,7 +143,7 @@
             border-left: 35px solid transparent;
             border-right: 35px solid transparent;
             border-bottom: 60px solid rgba(255, 222, 89, 0.7);
-            top: 40%;
+            top: 25%;
             left: 15%;
             z-index: 3;
             animation: float 6s ease-in-out infinite;
@@ -145,7 +154,7 @@
                 border-left-width: 25px;
                 border-right-width: 25px;
                 border-bottom-width: 45px;
-                top: 30%;
+                top: 15%;
                 left: 10%;
             }
         }
@@ -228,7 +237,7 @@
         
         @media (max-width: 600px) {
             .strings {
-                bottom: 20%;
+                bottom: 35%;
                 left: 10%;
             }
             .string {
@@ -354,28 +363,34 @@
         }
         
         .color-mapping {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
+            position: fixed; /* Changed from absolute to fixed */
+            bottom: 10px;
+            left: 0;
+            right: 0;
             background-color: rgba(255, 255, 255, 0.6);
-            padding: 8px;
-            border-radius: 5px;
+            padding: 5px;
             font-size: 12px;
             z-index: 10;
-            max-width: 90%;
+            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .color-item {
+            margin: 3px 5px;
         }
         
         @media (max-width: 600px) {
             .color-mapping {
                 font-size: 10px;
-                padding: 5px;
-                bottom: 5px;
-                left: 5px;
+                padding: 3px;
             }
-        }
-        
-        .color-item {
-            margin-bottom: 4px;
+            .color-item {
+                margin: 2px;
+                font-size: 9px;
+            }
         }
         
         .color-blue { color: #4361EE; }
@@ -384,6 +399,28 @@
             background: linear-gradient(to right, #FF6B6B 50%, #FFDE59 50%); 
             -webkit-background-clip: text; 
             color: transparent;
+        }
+        
+        .audio-player {
+            position: absolute;
+            bottom: 50px;
+            right: 15px;
+            z-index: 10;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .audio-player:hover {
+            opacity: 1;
+        }
+        
+        @media (max-width: 600px) {
+            .audio-player {
+                bottom: 40px;
+                right: 10px;
+                transform: scale(0.8);
+                transform-origin: bottom right;
+            }
         }
         
         @keyframes pulse {
@@ -433,7 +470,7 @@
 </head>
 <body>
     <div class="collage-container">
-        <img src="joy-collage.jpg" style="position: absolute; width: 100%; height: 100%; object-fit: contain; z-index: 0; opacity: 0.8;">
+        <img src="joy-collage.jpg" class="collage-img" style="position: absolute; width: 100%; height: 100%; object-fit: contain; z-index: 0; opacity: 0.8;">
         <div class="grid"></div>
         
         <div class="green-circle"></div>
@@ -474,17 +511,43 @@
         
         <div class="paperclip"></div>
         
-        <div class="color-mapping">
-            <div class="color-item">
-                <span class="color-blue">Blue</span> = detect vertical movement patterns
-            </div>
-            <div class="color-item">
-                <span class="color-green">Green</span> = assess stability-to-buoyancy ratio
-            </div>
-            <div class="color-item">
-                <span class="color-pink-yellow">Pink/Yellow</span> = generate complementary connection
-            </div>
+        <!-- Audio player for the joy sound -->
+        <div class="audio-player">
+            <audio id="joySound" controls loop>
+                <source src="joy-sound.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
         </div>
     </div>
+    
+    <!-- Fixed color mapping at bottom of screen -->
+    <div class="color-mapping">
+        <div class="color-item">
+            <span class="color-blue">Blue</span> = detect vertical movement
+        </div>
+        <div class="color-item">
+            <span class="color-green">Green</span> = stability-to-buoyancy
+        </div>
+        <div class="color-item">
+            <span class="color-pink-yellow">Pink/Yellow</span> = complementary connection
+        </div>
+    </div>
+    
+    <script>
+        // Optional: Auto-play sound with reduced volume when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('joySound');
+            audio.volume = 0.4; // Set volume to 40%
+            
+            // Uncomment below if you want autoplay (note: many browsers block autoplay)
+            // audio.play().catch(e => console.log("Autoplay prevented by browser policy"));
+            
+            // Alternative: Play on first user interaction
+            document.addEventListener('click', function playOnFirstInteraction() {
+                audio.play().catch(e => console.log("Playback error:", e));
+                document.removeEventListener('click', playOnFirstInteraction);
+            }, { once: true });
+        });
+    </script>
 </body>
 </html>
