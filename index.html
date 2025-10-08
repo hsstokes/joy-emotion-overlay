@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Joy Overlay Response</title>
     <style>
         body {
@@ -15,26 +15,51 @@
         }
         
         .collage-container {
-            background-image: url('joy-collage.jpg');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f8f8f8;
             position: relative;
             width: 100%;
             height: 100vh;
+            overflow: hidden; /* Prevent scrolling within container */
+            background-color: #f8f8f8;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        
+        .collage-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
             z-index: 0;
         }
         
-        /* Adjust image display on mobile */
+        /* Mobile-specific image settings */
         @media (max-width: 768px) {
             .collage-img {
-                object-fit: cover;
-                object-position: center top;
-                height: 90vh; /* Leave space for color mapping */
+                object-fit: contain; /* Use contain instead of cover */
+                height: 80vh; /* Fixed height */
+                max-height: 80vh;
+                width: auto;
+                max-width: 100%;
+                top: 50%; /* Center vertically */
+                left: 50%; /* Center horizontally */
+                transform: translate(-50%, -50%); /* Center precisely */
+            }
+            
+            /* Ensure container is proper height */
+            .collage-container {
+                height: 100vh;
+                position: fixed; /* Fixed position to prevent scrolling */
+                top: 0;
+                left: 0;
+            }
+            
+            /* Push the color mapping to be visible at bottom */
+            .color-mapping {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
             }
         }
         
@@ -363,33 +388,36 @@
         }
         
         .color-mapping {
-            position: fixed; /* Changed from absolute to fixed */
-            bottom: 10px;
+            position: fixed;
+            bottom: 0;
             left: 0;
             right: 0;
             background-color: rgba(255, 255, 255, 0.6);
-            padding: 5px;
+            padding: 8px 5px;
             font-size: 12px;
-            z-index: 10;
-            text-align: center;
+            z-index: 100;
             display: flex;
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-        }
-        
-        .color-item {
-            margin: 3px 5px;
+            border-top: 1px solid rgba(0,0,0,0.1);
         }
         
         @media (max-width: 600px) {
             .color-mapping {
-                font-size: 10px;
-                padding: 3px;
+                padding: 5px 2px;
             }
+        }
+        
+        .color-item {
+            margin: 0 5px;
+            white-space: nowrap;
+        }
+        
+        @media (max-width: 600px) {
             .color-item {
+                font-size: 10px;
                 margin: 2px;
-                font-size: 9px;
             }
         }
         
@@ -402,7 +430,7 @@
         }
         
         .audio-player {
-            position: absolute;
+            position: fixed;
             bottom: 50px;
             right: 15px;
             z-index: 10;
@@ -470,7 +498,7 @@
 </head>
 <body>
     <div class="collage-container">
-        <img src="joy-collage.jpg" class="collage-img" style="position: absolute; width: 100%; height: 100%; object-fit: contain; z-index: 0; opacity: 0.8;">
+        <img src="joy-collage.jpg" class="collage-img" alt="Joy Collage">
         <div class="grid"></div>
         
         <div class="green-circle"></div>
@@ -539,14 +567,16 @@
             const audio = document.getElementById('joySound');
             audio.volume = 0.4; // Set volume to 40%
             
-            // Uncomment below if you want autoplay (note: many browsers block autoplay)
-            // audio.play().catch(e => console.log("Autoplay prevented by browser policy"));
-            
             // Alternative: Play on first user interaction
             document.addEventListener('click', function playOnFirstInteraction() {
                 audio.play().catch(e => console.log("Playback error:", e));
                 document.removeEventListener('click', playOnFirstInteraction);
             }, { once: true });
+            
+            // Prevent scrolling on mobile
+            document.body.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, { passive: false });
         });
     </script>
 </body>
